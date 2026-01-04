@@ -29,12 +29,12 @@ public class Main {
         cardN = rand.nextInt(cl.getCards().size());
         return cardN;
     }
-
-    public static void main(String[] args) {
-        CardList cl = new CardList();
+    
+    public static CardList initDeck(CardList cl) {
         Card card;
         String istr;
-        for (int i = 1; i <= DECK_QTY; i++) {
+        int i;
+        for (i = 1; i <= DECK_QTY; i++) {
             card = new Card(i, 1);
             
             if (i % 10 == 5) {
@@ -58,28 +58,38 @@ public class Main {
             cl.getCards().add(card);
         }
         
+        return cl;
+    }
+
+    public static void main(String[] args) {
+        CardList cl = new CardList();
+        
+        cl = initDeck(cl);
+        Card card;
+        int i;
+        
         int cardN;
         int j;
         Player players[] = new Player[PLAYERS_QTY];
         
-        for (int i = 0; i < PLAYERS_QTY; i++) {
+        for (i = 0; i < PLAYERS_QTY; i++) {
             players[i] = new Player();
         }
         
-        for (int i = 0; i < PLAYERS_QTY; i++) {
+        for (i = 0; i < PLAYERS_QTY; i++) {
             for (j = 0; j < HAND_QTY; j++) {
                 cardN = returnRandCardNum(cl);
                 players[i].getHand().addCard(cl.getCards().remove(cardN));
             }
         }
 
-        for (int i = 0; i < PLAYERS_QTY; i++) {
+        for (i = 0; i < PLAYERS_QTY; i++) {
             Collections.sort(players[i].getHand().getCards());
         }
         
         Table table = new Table();
         
-        for (int i = 0; i < Table.ROWS_IN_TABLE; i++) {
+        for (i = 0; i < Table.ROWS_IN_TABLE; i++) {
             cardN = returnRandCardNum(cl);
             table.getRows()[i].addCard(cl.getCards().remove(cardN));
         }
@@ -89,7 +99,7 @@ public class Main {
 
             PlayingCard[] cardsToGo = new PlayingCard[PLAYERS_QTY];
 
-            for (int i = 0; i < PLAYERS_QTY; i++) {
+            for (i = 0; i < PLAYERS_QTY; i++) {
                 cardsToGo[i] = new PlayingCard();
                 System.out.println("Player " + i + " turn");
                 cardsToGo[i].setCard(players[i].removeCard(
@@ -101,7 +111,7 @@ public class Main {
             Arrays.sort(cardsToGo);
 
             System.out.println("");
-            for (int i = 0; i < PLAYERS_QTY; i++) {
+            for (i = 0; i < PLAYERS_QTY; i++) {
                 System.out.println("Player no. " + cardsToGo[i].getPlayer() +
                         " " + cardsToGo[i].toString());
             }
@@ -110,7 +120,7 @@ public class Main {
 
             Game game = new Game(players, table);
 
-            for (int i = 0; i < PLAYERS_QTY; i++) {
+            for (i = 0; i < PLAYERS_QTY; i++) {
                 System.out.println("Player's " + cardsToGo[i].getPlayer() + 
                         " turn");
 
@@ -118,7 +128,7 @@ public class Main {
                         cardsToGo[i].getCard());
             }
 
-            for (int i = 0; i < PLAYERS_QTY; i++) {
+            for (i = 0; i < PLAYERS_QTY; i++) {
                 System.out.println("\n\nPlayer's " + i + ":\n" +
                         players[i].toString());
             }
@@ -128,7 +138,7 @@ public class Main {
         
         int smallest = DECK_QTY;
         
-        for (int i = 0; i < PLAYERS_QTY; i++) {
+        for (i = 0; i < PLAYERS_QTY; i++) {
             if (smallest > players[i].countBullheads()) {
                 smallest = players[i].countBullheads();
             }
@@ -136,7 +146,7 @@ public class Main {
         
         ArrayList<Integer> winners = new ArrayList<>();
         
-        for (int i = 0; i < PLAYERS_QTY; i++) {
+        for (i = 0; i < PLAYERS_QTY; i++) {
             if (smallest == players[i].countBullheads()) {
                 winners.add(i);
             }
