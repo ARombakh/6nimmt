@@ -4,6 +4,8 @@
  */
 package pkg6nimmt;
 
+import java.util.Random;
+
 /**
  *
  * @author artyom
@@ -33,6 +35,9 @@ public class Game {
         setTable(table);
     }
     
+    public void addCardToTableRow(int i, Card card) {
+        getTable().getRows()[i].addCard(card);
+    }
     
     public void transferRowToPlayer (Table table, int row, Player player,
             Card card) {

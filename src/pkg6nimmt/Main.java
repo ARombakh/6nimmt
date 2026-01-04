@@ -76,6 +76,8 @@ public class Main {
             players[i] = new Player();
         }
         
+        Table table = new Table();
+        
         for (i = 0; i < PLAYERS_QTY; i++) {
             for (j = 0; j < HAND_QTY; j++) {
                 cardN = returnRandCardNum(cl);
@@ -86,12 +88,12 @@ public class Main {
         for (i = 0; i < PLAYERS_QTY; i++) {
             Collections.sort(players[i].getHand().getCards());
         }
-        
-        Table table = new Table();
+
+        Game game = new Game(players, table);
         
         for (i = 0; i < Table.ROWS_IN_TABLE; i++) {
             cardN = returnRandCardNum(cl);
-            table.getRows()[i].addCard(cl.getCards().remove(cardN));
+            game.addCardToTableRow(i, cl.getCards().remove(cardN));
         }
         
         while (!players[0].getHand().getCards().isEmpty()) {            
@@ -102,9 +104,15 @@ public class Main {
             for (i = 0; i < PLAYERS_QTY; i++) {
                 cardsToGo[i] = new PlayingCard();
                 System.out.println("Player " + i + " turn");
-                cardsToGo[i].setCard(players[i].removeCard(
-                        players[i].askInput())
-                );
+                if (players[i].getHand().getCards().size() > 1) {
+                    cardsToGo[i].setCard(players[i].removeCard(
+                            players[i].askInput())
+                    );
+                } else {
+                    card = players[i].getHand().getCards().get(0);
+                    System.out.println("Removing card " + card.toString());
+                    cardsToGo[i].setCard(players[i].removeCard(card));
+                }
                 cardsToGo[i].setPlayer(i);
             }
 
@@ -115,11 +123,7 @@ public class Main {
                 System.out.println("Player no. " + cardsToGo[i].getPlayer() +
                         " " + cardsToGo[i].toString());
             }
-
-            int k;
-
-            Game game = new Game(players, table);
-
+            
             for (i = 0; i < PLAYERS_QTY; i++) {
                 System.out.println("Player's " + cardsToGo[i].getPlayer() + 
                         " turn");
@@ -133,7 +137,7 @@ public class Main {
                         players[i].toString());
             }
 
-            System.out.println(table.toString());            
+            System.out.println(table.toString());
         }
         
         int smallest = DECK_QTY;
@@ -156,7 +160,7 @@ public class Main {
             System.out.println("The winners with " + smallest + 
                     " bullheads are:");
         } else {
-            System.out.println("The winner " + smallest + 
+            System.out.println("The winner with " + smallest + 
                     " bullheads is:");
         }
         
