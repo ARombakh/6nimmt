@@ -64,23 +64,4 @@ public class Game {
             }
         }
     }
-    
-    
-    /*
-    public static void main(String[] args) {
-        Table table = new Table();
-        table.getRows()[0].addCard(new Card(5, 3));
-        table.getRows()[1].addCard(new Card(6, 1));
-        table.getRows()[2].addCard(new Card(10, 1));
-        table.getRows()[3].addCard(new Card(17, 1));
-
-        System.out.println(table.getRows()[0].toString());
-        System.out.println(table.getRows()[1].toString());
-        System.out.println(table.getRows()[2].toString());
-        System.out.println(table.getRows()[3].toString());
-        
-        Card card = new Card(3, 1);
-        
-        System.out.println(table.findFitRow(card));
-    }*/
 }
